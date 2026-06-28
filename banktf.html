@@ -248,6 +248,29 @@
             border-radius: 5px;
         }
 
+        /* Receipt Upload Styles */
+        .receipt-upload {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+        }
+        .receipt-upload label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        #receiptUpload {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+        #uploadStatus {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #d32f2f;
+        }
+
     </style>
 </head>
 <body>
@@ -313,6 +336,14 @@
 
         <p>Account Name</p>
         <h3> HUSSEIN FAROUQ SANUSI</h3> <br> <hr> <br>
+
+        <!-- Receipt Upload Section -->
+        <div class="receipt-upload">
+            <p>Upload Payment Receipt (Required)</p>
+            <input type="file" id="receiptUpload" accept="image/*,.pdf" onchange="checkUpload()">
+            <div id="uploadStatus"></div>
+        </div>
+
         <p>Pay to this specific account and get your access code </p> <br>
         <div class="btn">
             <button id="transferButton" onclick="startTransfer()">I have made this bank Transfer</button> <br>
@@ -332,7 +363,28 @@
             alert("Copied: " + textToCopy);
         }
 
+        let receiptUploaded = false;
+
+        function checkUpload() {
+            const fileInput = document.getElementById('receiptUpload');
+            const status = document.getElementById('uploadStatus');
+            
+            if (fileInput.files.length > 0) {
+                receiptUploaded = true;
+                status.textContent = "✅ Receipt uploaded successfully";
+                status.style.color = "green";
+            } else {
+                receiptUploaded = false;
+                status.textContent = "";
+            }
+        }
+
         function startTransfer() {
+            if (!receiptUploaded) {
+                alert("Please upload your payment receipt before proceeding.");
+                return;
+            }
+
             const box = document.querySelector('.box');
             box.style.display = 'none';
 
@@ -372,4 +424,4 @@
         });
     </script>
 </body>
-                             </html>
+            </html>
